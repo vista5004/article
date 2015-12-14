@@ -1,6 +1,6 @@
-这是我在翻阅资料的时候，在国外的thinkster上找到的一篇关于关于angular中promise的一篇资料教程，写的非常好，收益良多，我现在翻译一下，供大家学习交流，如果大家想深入学习，欢迎到thinkster注册，并且付费。
-下面是正文：
-angular的promise是由$q提供和构件的，$q提供了一个通过注册一个promise项目来异步执行的方法。Promise作为ES6的一部分规范形成了原生javascript。angular的$q服务提供了一个新的接口，方便与以后移植到ES6。
+这是我在翻阅资料的时候，在国外的thinkster上找到的一篇关于关于angular中promise的一篇资料教程，写的非常好，收益良多，我现在翻译一下，供大家学习交流，如果大家想深入学习，欢迎到thinkster注册，并且付费。<br>
+下面是正文：<br>
+angular的promise是由$q提供和构件的，$q提供了一个通过注册一个promise项目来异步执行的方法。Promise作为ES6的一部分规范形成了原生javascript。angular的$q服务提供了一个新的接口，方便与以后移植到ES6。<br>
 code
 ```
 <html>
