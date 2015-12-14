@@ -14,18 +14,20 @@ code
 </html>
 ```
 ```
-function getData($timeout,$q){
-    return function(){
-        var defer=$q.defer();
-        $timeout(function(){},2000)
-    }
+function getData($timeout, $q) {
+  return function() {
+    var defer = $q.defer()
+    // simulated async function
+    $timeout(function() {
+    }, 2000)
+    return defer.promise
+  }
 }
-   return defer.promise
-angular.module('app',[])
-    .factory('getData',getData)//把getData方法进入factory进行实例化，方便进去run方法进行配置
-    .run(function(getData){//run方法用于快速配置，注入完成后启动（只能是实例化的服务或者参数可以配置）
-          var promise=getData;
-    })
+angular.module('app', [])
+.factory('getData', getData)//把getData方法进入factory进行实例化，方便进去run方法进行配置
+.run(function(getData) {//run方法用于快速配置，注入完成后启动（只能是实例化的服务或者参数可以配置）
+  var promise = getData()
+})
 ```
 为了简单起见，我们使用angular的$timeout服务模拟异步函数，尤其是讲解AJAX使用angular的$HTTP服务，是最常用使用promise的地方
 
