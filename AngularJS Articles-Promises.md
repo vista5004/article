@@ -69,7 +69,7 @@ function getData($timeout,$q){
             defer.reject('oh no an error! try again');  
            }
     },2000)
-    return defer;
+    return defer.promise;
 }
 ```
 then()方法的第二个参数是一个可选的发生错误时候的回调函数，当这个promise对象失败的时候调用。
@@ -166,32 +166,6 @@ function getData($timeout, $q) {
 下面是原文的连接，如果大家喜欢，可以到原网站学习。[think]https://thinkster.io/a-better-way-to-learn-angularjs/promises
 
 本文可以随意转载，但需注明出处。[here]http://www.jianshu.com/p/df257dfbc8fe
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
