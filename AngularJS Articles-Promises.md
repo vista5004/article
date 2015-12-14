@@ -40,7 +40,7 @@ function getData(){
       $timeout(function(){
             defer.resolve("data received");
        },2000);
-      return promise;
+      return defer.promise;
   }
 }
 ```
