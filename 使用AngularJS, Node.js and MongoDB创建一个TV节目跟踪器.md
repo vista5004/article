@@ -8,6 +8,10 @@
 <ul>
 <li>去除method-override, cookie-parser and express-session模块</li>
 <li>JSON Web Token认证代替了基于cookies的方法。<li/>
+<li>使用Google登录<li/>
+<li>使用Facebook登录<li/>
+<li>使用ngAnnotate代替ngMin为AnguarJS依赖进行注释<li/>
+<li>一个新的基于Google's Material Design的警告通知</li>
 </ul>
 
 
