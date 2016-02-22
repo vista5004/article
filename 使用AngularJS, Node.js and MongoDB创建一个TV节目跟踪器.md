@@ -6,12 +6,12 @@
 [源码](https://github.com/sahat/tvshow-tracker) 
 ####August 18, 2014更新，GitHub repository代码已经更新，下面是一些改变的简要概述<br>
 <ul>
-<li>去除method-override, cookie-parser and express-session模块</li>
-<li>JSON Web Token认证代替了基于cookies的方法。<li/>
-<li>使用Google登录<li/>
-<li>使用Facebook登录<li/>
-<li>使用ngAnnotate代替ngMin为AnguarJS依赖进行注释<li/>
-<li>一个新的基于Google's Material Design的警告通知</li>
+<li>去除method-override, cookie-parser and express-session模块
+<li>JSON Web Token认证代替了基于cookies的方法。
+<li>使用Google登录
+<li>使用Facebook登录
+<li>使用ngAnnotate代替ngMin为AnguarJS依赖进行注释
+<li>一个新的基于Google's Material Design的警告通知
 </ul>
 
 
