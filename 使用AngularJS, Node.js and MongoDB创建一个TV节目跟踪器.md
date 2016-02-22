@@ -23,9 +23,9 @@
 </ul>
 在开始程序之前，确保你已经安装了以下：<br>
 <ul>
-<li>[Node.js](https://nodejs.org/en/)
-<li>[MongoDB](http://www.mongodb.org/downloads)
-<li>[express-generator](https://github.com/expressjs/generator)
+<li>Node.js(https://nodejs.org/en/)
+<li>MongoDB(http://www.mongodb.org/downloads)
+<li>express-generator(https://github.com/expressjs/generator)
 </ul>
 ##第一步，新建一个新的Express文件
 在安装完[express-generator](https://github.com/expressjs/generator)后我们可以使用<code>express</code>命令新建一个小的Express应用。<p>
