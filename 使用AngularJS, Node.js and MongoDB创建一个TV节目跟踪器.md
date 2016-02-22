@@ -31,4 +31,9 @@
 在安装完[express-generator](https://github.com/expressjs/generator)后我们可以使用<code>express</code>命令新建一个小的Express应用。<p>
 运行<code>express showtrackr</code>创建一个新的Express项目，showtrackr就是我们今天要创造这个项目的名字。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-1.png)
+进入showtrackr文件夹，然后运行<code>npm install</code>命令。
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-2.png)
+删除用不到的views、routes和bin文件夹，然后把<code>app.js</code>改成<code>server.js</code>,我们会写创建另一个app.js来启动Angularjs程序<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-3.png)
+
 
