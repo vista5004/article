@@ -35,5 +35,24 @@
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-2.png)
 删除用不到的views、routes和bin文件夹，然后把<code>app.js</code>改成<code>server.js</code>,我们会写创建另一个app.js来启动Angularjs程序<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-3.png)
+用下面的代码来代替，server.js中的代码
+<code>
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
+var app = express();
+
+app.set('port', process.env.PORT || 3000);
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
+});
+</code>
 
