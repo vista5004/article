@@ -64,13 +64,41 @@ app.listen(app.get('port'), function() {
 <br>
 你仍然需要下载下面的script文件，并他们放到public/vendor文件夹。<br>
 <ul>
-<li>[angular.js]](https://code.angularjs.org/1.3.5/)
-<li>[angular-strap.js](https://code.angularjs.org/1.3.5/)
-<li>[angular-strap.tpl.js](https://code.angularjs.org/1.3.5/)
-<li>[angular-message.js](https://code.angularjs.org/1.3.5/)
-<li>[angular-resource.js](https://code.angularjs.org/1.3.5/)
-<li>[angular-route.js](https://code.angularjs.org/1.3.5/)
-<li>[angular-cookies.js](https://code.angularjs.org/1.3.5/)
-<li>[moment.min.js](https://code.angularjs.org/1.3.5/)
+<li>angular.js(https://code.angularjs.org/1.3.5/)
+<li>angular-strap.js(https://code.angularjs.org/1.3.5/)
+<li>angular-strap.tpl.js(https://code.angularjs.org/1.3.5/)
+<li>angular-message.js(https://code.angularjs.org/1.3.5/)
+<li>angular-resource.js(https://code.angularjs.org/1.3.5/)
+<li>angular-route.js(https://code.angularjs.org/1.3.5/)
+<li>angular-cookies.js(https://code.angularjs.org/1.3.5/)
+<li>moment.min.js(http://momentjs.com/)
 </ul>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-6.png)
+在publick文件夹中创建index.html，并且输入以下内容<p>
+```
+<!DOCTYPE html>
+<html ng-app="MyApp">
+<head>
+  <base href="/">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShowTrackr</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link href="stylesheets/style.css" rel="stylesheet">
+</head>
+<body>
+
+<div ng-view></div>
+
+<script src="vendor/angular.js"></script>
+<script src="vendor/angular-strap.js"></script>
+<script src="vendor/angular-strap.tpl.js"></script>
+<script src="vendor/angular-messages.js"></script>
+<script src="vendor/angular-resource.js"></script>
+<script src="vendor/angular-route.js"></script>
+<script src="vendor/angular-cookies.js"></script>
+<script src="vendor/moment.min.js"></script>
+</body>
+</html>
+```
