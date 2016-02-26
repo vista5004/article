@@ -57,6 +57,8 @@ app.listen(app.get('port'), function() {
 ```
 ##第二步，启动AngularJS应用
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-4.png)
-
-
+复制所有的glyphicons文件从assets/fonts/bootstrap到 public/fonts文件夹，并且把assets/stylesheets的所有文件拷入public/stylesheets/bootstrap文件夹<br>
+2014年12月4日更新：增加SASS文件路径<br>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-5.png)
+下载这个图片[http://i.imgur.com/A38jRib.png]，并且放在public文件夹，你不是很需要它，但是这是一个很棒的手法。<br>
 
