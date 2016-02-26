@@ -60,5 +60,17 @@ app.listen(app.get('port'), function() {
 复制所有的glyphicons文件从assets/fonts/bootstrap到 public/fonts文件夹，并且把assets/stylesheets的所有文件拷入public/stylesheets/bootstrap文件夹<br>
 2014年12月4日更新：增加SASS文件路径<br>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-5.png)
-下载这个图片[http://i.imgur.com/A38jRib.png]，并且放在public文件夹，你不是很需要它，但是这是一个很棒的手法。<br>
-
+下载这个[图标](http://i.imgur.com/A38jRib.png)，并且放在public文件夹，你不是很需要它，但是这是一个很棒的手法。<br>
+<br>
+你仍然需要下载下面的script文件，并他们放到public/vendor文件夹。<br>
+<ul>
+<li>[angular.js]](https://code.angularjs.org/1.3.5/)
+<li>[angular-strap.js](https://code.angularjs.org/1.3.5/)
+<li>[angular-strap.tpl.js](https://code.angularjs.org/1.3.5/)
+<li>[angular-message.js](https://code.angularjs.org/1.3.5/)
+<li>[angular-resource.js](https://code.angularjs.org/1.3.5/)
+<li>[angular-route.js](https://code.angularjs.org/1.3.5/)
+<li>[angular-cookies.js](https://code.angularjs.org/1.3.5/)
+<li>[moment.min.js](https://code.angularjs.org/1.3.5/)
+</ul>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-6.png)
