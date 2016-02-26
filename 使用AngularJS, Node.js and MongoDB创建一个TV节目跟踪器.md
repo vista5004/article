@@ -102,3 +102,16 @@ app.listen(app.get('port'), function() {
 </body>
 </html>
 ```
+在第二行<code>ng-app</code>认为这个是AngularJS应用的根元素。<code><base href="/"></code>是AngularJS history API所必须的。这会给我们一个一个干净的没有#号的URL。第14行的<code>ng-view</code>是一个指令，包括了渲染过当前路由的模板。每一次路由变动，这个包含的视图会根据路由服务的配置快速的变更视图。<p>
+
+这和Ember.js中的outlet(http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet)很像<p>
+创建一个<code></code>在别的脚本文件后加入index.html<p>
+```
+<script src="app.js"></script>
+```
+现在在<code>app.js</code>加入如下代码就能启动了。<br>
+```
+angular.module('MyApp',['ngCookieds','ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
+  .config(function(){
+  })
+```
