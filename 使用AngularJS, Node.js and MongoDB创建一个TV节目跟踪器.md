@@ -141,4 +141,261 @@ angular.module('MyApp',['ngCookieds','ngResource', 'ngMessages', 'ngRoute', 'mgc
 我们使用[ AngularStrap Navbar](http://mgcrea.github.io/angular-strap/#/page-one#navbars)代替[Bootstrap Navbar](http://getbootstrap.com/components/#navbar)的原因就一个，当改变路由的时候，<code>active</code>类会自动应用到<code>li</code>标签。加上你得到的许多非常酷的指令和AngularJS整合在一起，比如Alert，Typeahead, Tooltip等等指令<p>
 你可以尝试运行一个APP，你会发现没有任何错误，但是没有出现Navbar，因为我们还没有包括进来bootstrap3的样式文件。我们将会使用gulp来编译sass文件。<p>
 
+直接安装glup和glup插件<p>
+```
+// Step 1: Install gulp globally
+sudo npm install -g gulp
+
+// Step 2: Install gulp in your project
+npm install --save-dev gulp gulp-sass gulp-plumber
+```
+2014年八月升级：你可以全局安装许多NPM模块（使用<code>g</code>标志）代替命令行路径，如果你像步骤2一样下载许多当地模块。你不得不在这个文件夹或者它的子目录内内运行<code>npm install</code>。<p>
+通过<code>--save-dev</code>将会在<code>package.json</code>中添加依赖。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-7.png)
+在项目文件夹中创建一个新的<code>gulpfile.js</code>文件。<p>
+```
+var gulp = require('gulp');
+var sass = require('gulp-sass');
+var plumber = require('gulp-plumber');
+
+gulp.task('sass', function() {
+  gulp.src('public/stylesheets/style.scss')
+    .pipe(plumber())
+    .pipe(sass())
+    .pipe(gulp.dest('public/stylesheets'));
+});
+
+gulp.task('watch', function() {
+  gulp.watch('public/stylesheets/*.scss', ['sass']);
+});
+
+gulp.task('default', ['sass', 'watch']);
+```
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-8.png)
+当你在终端执行<code>gulp</code>的时候，最后一行指定gulp来运行。现在只需要编辑sass样式文件监听文件变化，自动重新编译文件。你可能会好奇[ gulp-plumber](https://github.com/floatdrop/gulp-plumber)。它能够提供gulp管道当其他插件发生错误的时候。换句话说，当在sass文件中发生语法错误的时候，gulp监听器不会发生崩溃，在gulp工作流中不会出现废话。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-9.png)
+在 public/stylesheets文件夹中创建<code>style.scss</code><p>
+```
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
+
+$icon-font-path: '../fonts/';
+$body-bg: #e4e7ec;
+
+$font-family-base: 'Open Sans', sans-serif;
+$headings-color: #111;
+$headings-font-family: Avenir, sans-serif;
+$headings-font-weight: bold;
+
+$brand-success: #22ae5f;
+$brand-primary: #1d7cf4;
+$brand-danger: #b30015;
+$brand-warning: #ffd66a;
+
+$text-muted: #90939a;
+$link-color: #000;
+
+$navbar-default-link-active-bg: #f7f7f7;
+$navbar-default-link-color: #848484;
+$navbar-default-bg: #fff;
+$navbar-default-border: #e3e9ec;
+
+$navbar-default-brand-color: #333;
+$navbar-default-brand-hover-color: #ffe939;
+$navbar-default-brand-hover-bg: #333;
+
+$btn-success-bg: $brand-success;
+$btn-success-border: darken($btn-success-bg, 3%);
+$btn-primary-bg: $brand-primary;
+$btn-primary-border: darken($btn-primary-bg, 3%);
+
+$jumbotron-padding: 16px;
+$jumbotron-bg: #f4f6f8;
+
+$alert-border-radius: 0;
+$input-border-radius: 0;
+
+$alert-success-text: #fff;
+$alert-success-bg: #60c060;
+$alert-success-border: darken($alert-success-bg, 3%);
+
+$alert-danger-text: #fff;
+$alert-danger-bg: $brand-danger;
+$alert-danger-border: darken($alert-danger-bg, 3%);
+
+$alert-info-bg: #e5f7fd;
+$alert-info-border: #bcf8f3;
+$alert-info-text: #25484e;
+
+@import 'bootstrap/bootstrap';
+
+body {
+  padding-bottom: 20px;
+}
+
+em {
+  font-style: normal;
+  text-decoration: underline;
+}
+
+.alphabet {
+  cursor: pointer;
+  font-size: 22px;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+}
+
+.genres {
+  cursor: pointer;
+
+  li {
+    margin-right: 5px;
+    @extend .label;
+    @extend .label-default;
+
+    &:active {
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.250);
+    }
+  }
+}
+
+.jumbotron {
+  margin-top: -20px;
+  border-bottom: 1px solid #dae2e4;
+}
+
+.media-object {
+  max-width: 200px;
+  margin-bottom: 10px;
+}
+
+.episode {
+  border-left: 5px solid #111;
+  padding-left: 10px;
+}
+
+.alert {
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+.alert.top-right {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  margin: 20px;
+  z-index: 1050;
+  outline: none;
+
+  .close {
+    padding-left: 10px
+  }
+}
+
+.btn {
+  border-radius: 2px;
+}
+
+.center-form {
+  width: 330px;
+  margin: 10% auto;
+
+  input {
+    border-radius: 0;
+  }
+}
+
+.search {
+  color: #4f4f4f;
+  font-weight: 300;
+  font-size: 1.5em;
+  padding: 7px;
+  margin-top: -10px;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    -webkit-transition: all .4s ease;
+    transition: all .4s ease;
+  }
+}
+
+.panel {
+  border-color: #cfd9D7;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.panel-default > .panel-heading {
+  color: #444;
+  border-color: #cfd9db;
+  font-weight: bold;
+  font-size: 85%;
+  text-transform: uppercase;
+  background-color: #f6f6f6;
+}
+
+.label {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 3px;
+  font-size: 12px;
+  transition: 0.1s all;
+  -webkit-font-smoothing: antialiased;
+}
+
+.label-default {
+  background-color: #e4e7ec;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  color: #90939a;
+
+  &:hover {
+    background-color: #90939a;
+    color: #f4f6f8;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+}
+
+.navbar {
+  box-shadow: 0 3px 2px -3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-header {
+  float: left;
+  padding-left: 15px;
+
+}
+
+.navbar-brand {
+  background-color: #ffe939;
+  transition: 0.25s all;
+  margin-left: -15px;
+}
+
+.navbar-nav {
+  float: left;
+  margin: 0;
+
+  > li {
+    float: left;
+
+    > a {
+      padding: 15px;
+    }
+  }
+}
+```
+
 
