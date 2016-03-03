@@ -115,3 +115,30 @@ angular.module('MyApp',['ngCookieds','ngResource', 'ngMessages', 'ngRoute', 'mgc
   .config(function(){
   })
 ```
+我们加入 [AngularStrap Navbar](http://mgcrea.github.io/angular-strap/#/page-one#navbars),把它放在<code>body</code>标签后面。
+```
+<div class="navbar navbar-default navbar-static-top"
+     role="navigation" bs-navbar>
+  <div class="navbar-header">
+    <a class="navbar-brand" href="/">
+      <span class="glyphicon glyphicon-film"></span>
+      Show<strong>Trackr</strong></a>
+  </div>
+  <ul class="nav navbar-nav">
+    <li data-match-route="/$"><a href="/">Home</a></li>
+    <li data-match-route="/add"><a href="/add">Add</a></li>
+  </ul>
+  <ul class="nav navbar-nav pull-right" ng-if="!currentUser">
+    <li data-match-route="/login"><a href="/login">Login</a></li>
+    <li data-match-route="/signup"><a href="/signup">Sign up</a></li>
+  </ul>
+  <ul class="nav navbar-nav pull-right" ng-if="currentUser">
+    <li class="navbar-text" ng-bind="currentUser.email"></li>
+    <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+  </ul>
+</div>
+```
+我们使用[ AngularStrap Navbar](http://mgcrea.github.io/angular-strap/#/page-one#navbars)代替[Bootstrap Navbar](http://getbootstrap.com/components/#navbar)的原因就一个，当改变路由的时候，<code>active</code>类会自动应用到<code>li</code>标签。加上你得到的许多非常酷的指令和AngularJS整合在一起，比如Alert，Typeahead, Tooltip等等指令<p>
+你可以尝试运行一个APP，你会发现没有任何错误，但是没有出现Navbar，因为我们还没有包括进来bootstrap3的样式文件。我们将会使用gulp来编译sass文件。<p>
+
+
