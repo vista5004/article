@@ -462,4 +462,48 @@ $routeProvider
   });
 ```
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-11.png)
+对于每一个路由都有一个控制器和模板，如果你有一个页面大部分是静态内容，你甚至不需要设置一个控制器。如果你立即重载这个页面，并且打开开发者工具，你会看到404错误，因为我们还没有任何模板。<p>
+在public/views文件夹中创建<code>home.html</code>，用来存放所有的AngularJS模板。
+```
+<div class="jumbotron">
+  <div class="container">
+    <ul class="alphabet">
+      <li ng-repeat="char in alphabet">
+        <span ng-click="filterByAlphabet(char)">{{char}}</span>
+      </li>
+    </ul>
+    <ul class="genres">
+      <li ng-repeat="genre in genres">
+        <span ng-click="filterByGenre(genre)">{{genre}}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{headingTitle}}
+      <div class="pull-right">
+        <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row show-list">
+        <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
+          <a href="/shows/{{show._id}}">
+            <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+          </a>
+          <div class="text-center">
+            <a href="/shows/{{show._id}}">{{show.name}}</a>
+            <p class="text-muted">Episodes: {{show.episodes.length}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+
 
