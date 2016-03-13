@@ -401,3 +401,18 @@ em {
 在项目文件夹中命令行运行<code>gulp</code>后浏览器会刷新。<p>
 我通常有一个<code>node server.js</code>服务器来运行一个终端页，<code>mongod</code>在另外一个终端页，<code>gulp</code>在第三个终端页，最后一个终端页是用来一些其他的命令，比如<code>git add</code><code>git commit</code>。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-10.png)
+如果你对bootstrap不陌生的话，在<code>style.css</code>中的所有东西都应该是简单的。这里只有一些简单的普通类，为了看上去更好看，对bootstrap一些核心类的重写。<p>
+####AngularJS路由和模板
+回到<code>app.js</code>把下面这行加到config方法里面，确保HTML5的push状态。<p>
+```
+$locationProvider.html5Mode(true);
+```
+<code>loactionProvider</code>(https://docs.angularjs.org/api/ng/provider/$locationProvider)是什么和用来做什么的？他是内置的AngularJS服务为了配置路由信息。使用这个服务后，你可以使用[HTML5 pushState](http://html5demos.com/history)这样的API，或者改变URL前缀从<code>#</code>到<code>!#</code>类似的。如果你打算在你的AngularJS应用中使用Disqus组件，你需要做一些事情。简单的增加一些<code>locationProvider</code>参数给config回调函数，就可以让AngularJS注入这个服务和应用它。<p>
+```
+angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
+  .config(function($locationProvider) {
+    $locationProvider.html5Mode(true);
+
+
+  });
+```
