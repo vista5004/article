@@ -407,7 +407,7 @@ em {
 ```
 $locationProvider.html5Mode(true);
 ```
-<code>loactionProvider</code>(https://docs.angularjs.org/api/ng/provider/$locationProvider)是什么和用来做什么的？他是内置的AngularJS服务为了配置路由信息。使用这个服务后，你可以使用[HTML5 pushState](http://html5demos.com/history)这样的API，或者改变URL前缀从<code>#</code>到<code>!#</code>类似的。如果你打算在你的AngularJS应用中使用Disqus组件，你需要做一些事情。简单的增加一些<code>locationProvider</code>参数给config回调函数，就可以让AngularJS注入这个服务和应用它。<p>
+[loactionProvider](https://docs.angularjs.org/api/ng/provider/$locationProvider)是什么和用来做什么的？他是内置的AngularJS服务为了配置路由信息。使用这个服务后，你可以使用[HTML5 pushState](http://html5demos.com/history)这样的API，或者改变URL前缀从<code>#</code>到<code>!#</code>类似的。如果你打算在你的AngularJS应用中使用Disqus组件，你需要做一些事情。简单的增加一些<code>locationProvider</code>参数给config回调函数，就可以让AngularJS注入这个服务和应用它。<p>
 ```
 angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
   .config(function($locationProvider) {
