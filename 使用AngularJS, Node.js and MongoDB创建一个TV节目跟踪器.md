@@ -397,5 +397,7 @@ em {
   }
 }
 ```
-
-
+2014年6月8日更新<br>
+在项目文件夹中命令行运行<code>gulp</code>后浏览器会刷新。<p>
+我通常有一个<code>node server.js</code>服务器来运行一个终端页，<code>mongod</code>在另外一个终端页，<code>gulp</code>在第三个终端页，最后一个终端页是用来一些其他的命令，比如<code>git add</code><code>git commit</code>。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-10.png)
