@@ -416,3 +416,50 @@ angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mg
 
   });
 ```
+当你压缩这个script文件时会发生什么？这个<code>locationProvider</code>的参数会改变成其它模糊的名字，AngularJS会不知道注入哪个服务，你可以通过给这个方法加注释来解决名字依赖的关系。<p>
+```
+angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
+  .config(['$locationProvider', function($locationProvider) {
+    $locationProvider.html5Mode(true);
+
+
+  }]);
+```
+在这个数组中每一个字符串都是服务的名字，用来注入的参数。从现在开始要使用这个符号，我们将要在接下来压缩和连接script。<p>
+接下来，需要路由处理以下页面:<br>
+<ul>
+<li>Home————展现一系列受欢迎的电视剧</li>
+<li>Details————展示电视剧的细节</li>
+<li>Login————用来登录</li>
+<li>Signup————用来注册</li>
+<li>Add————用来加入新的电视页</li>
+</ul>
+在配置中注入这个[$routerProvider]，加入这些路由。<p>
+```
+$routeProvider
+  .when('/', {
+    templateUrl: 'views/home.html',
+    controller: 'MainCtrl'
+  })
+  .when('/shows/:id', {
+    templateUrl: 'views/detail.html',
+    controller: 'DetailCtrl'
+  })
+  .when('/login', {
+    templateUrl: 'views/login.html',
+    controller: 'LoginCtrl'
+  })
+  .when('/signup', {
+    templateUrl: 'views/signup.html',
+    controller: 'SignupCtrl'
+  })
+  .when('/add', {
+    templateUrl: 'views/add.html',
+    controller: 'AddCtrl'
+  })
+  .otherwise({
+    redirectTo: '/'
+  });
+```
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-11.png)
+
