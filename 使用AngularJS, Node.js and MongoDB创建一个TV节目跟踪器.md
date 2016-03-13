@@ -512,5 +512,19 @@ $routeProvider
 </li>
 ```
 它在一个叫<code>MainCtrl</code>中，预定义一个叫<code>alphabet</code>的数组。这个<code>refers</code>指的是这个数组中独立的条目，在这个数组中的字母。当你点击这个字母就会启动在<code>specified</code>指定的<code>filterByAlphabet</code>方法。这里我们把指定的字母传入<code>filterByAlphabet(char)</code>，否则不知道过滤哪个字母。<p>
-
-
+另一个<code>ng-repeat</code>是展现电视剧的缩略图和名字。<p>
+```
+<div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
+  <a href="/shows/{{show._id}}">
+    <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
+  </a>
+  <div class="text-center">
+    <a href="/shows/{{show._id}}">{{show.name}}</a>
+    <p class="text-muted">Episodes: {{show.episodes.length}}</p>
+  </div>
+</div>
+```
+在AngularJS中你可以过滤和排序结果，在以上的代码中，缩略图是靠等级和在input中输入过滤的。<p>
+```
+<input class="search" type="text" ng-model="query.name" placeholder="Search...">
+```
