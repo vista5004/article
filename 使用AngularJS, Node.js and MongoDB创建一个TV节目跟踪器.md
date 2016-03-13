@@ -504,6 +504,13 @@ $routeProvider
   </div>
 </div>
 ```
-
+如果你使用bootstrap CSS框架，所有的css你都会很熟悉。这里也有一些指令在这里，这个<code>ng-repeat</code>指令将会在这个页面的控制器中从一个数组中迭代指定条目。<p>
+让我们看看这个代码段：
+```
+<li ng-repeat="char in alphabet">
+  <span ng-click="filterByAlphabet(char)">{{char}}</span>
+</li>
+```
+它在一个叫<code>MainCtrl</code>中，预定义一个叫<code>alphabet</code>的数组。这个<code>refers</code>指的是这个数组中独立的条目，在这个数组中的字母。当你点击这个字母就会启动在<code>specified</code>指定的<code>filterByAlphabet</code>方法。这里我们把指定的字母传入<code>filterByAlphabet(char)</code>，否则不知道过滤哪个字母。<p>
 
 
