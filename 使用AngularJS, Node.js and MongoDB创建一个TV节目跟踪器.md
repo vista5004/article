@@ -528,3 +528,59 @@ $routeProvider
 ```
 <input class="search" type="text" ng-model="query.name" placeholder="Search...">
 ```
+这个判断原因是<code>query.name</code>而不是query，因为我们只想通过TVshow的名字来进行过滤，而不是靠总结、排名、开始播出的时间等进行过滤。<p>
+接下来要创建一个新的文件<code>main.js</code>在public/controllers文件夹，然后把它加入到<code>index.html</code>中。<p>
+```
+<script src="controllers/main.js"></script>
+```
+```
+angular.module('MyApp')
+  .controller('MainCtrl', ['$scope', 'Show', function($scope, Show) {
+
+    $scope.alphabet = ['0-9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+      'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+      'Y', 'Z'];
+
+    $scope.genres = ['Action', 'Adventure', 'Animation', 'Children', 'Comedy',
+      'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Food',
+      'Home and Garden', 'Horror', 'Mini-Series', 'Mystery', 'News', 'Reality',
+      'Romance', 'Sci-Fi', 'Sport', 'Suspense', 'Talk Show', 'Thriller',
+      'Travel'];
+
+    $scope.headingTitle = 'Top 12 Shows';
+
+    $scope.shows = Show.query();
+
+    $scope.filterByGenre = function(genre) {
+      $scope.shows = Show.query({ genre: genre });
+      $scope.headingTitle = genre;
+    };
+
+    $scope.filterByAlphabet = function(char) {
+      $scope.shows = Show.query({ alphabet: char });
+      $scope.headingTitle = char;
+    };
+  }]);
+```
+这里有两个我在使用<code>ng-repeat</code>指令时，前面提到过的数组，<code>alphabet</code>和<code>genre</code>，这个<code>show</code>服务中提到过的两个数组。这个<code>show</code>会自动通过AngularJS注入。我们还没有创建这个服务，所以当加载这个页面的时候，会发生如下错误。Unknown provider: ShowProvider <- Show.<p>
+我们在public/services文件夹直接创建一个<code>show.js</code>，不要忘记把它加入到<code>index.html</code>中。<p>
+```
+<script src="services/show.js"></script>
+```
+```
+angular.module('MyApp')
+  .factory('Show', ['$resource', function($resource) {
+    return $resource('/api/shows/:_id');
+  }]);
+```
+
+
+
+
+
+
+
+
+
+
+
