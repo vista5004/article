@@ -573,7 +573,7 @@ angular.module('MyApp')
     return $resource('/api/shows/:_id');
   }]);
 ```
-这个你见过的最简单的服务，要多亏了<code>angular-resource.js</code>这个模块，为我们做了繁重的工作。这个$resources是一个完美的RESTFUL(https://docs.angularjs.org/api/ngResource/service/$resource)支持模块。现在我们需要的是查询整个节目和介绍通过id来实现。刷新这个页面你将会看到api/shows 404 (Not Found)错误，其他的东西将会像其它期望的那样发生。<p>
+这个你见过的最简单的服务，要多亏了<code>angular-resource.js</code>这个模块，为我们做了繁重的工作。这个$resources是一个完美的[RESTFUL](https://docs.angularjs.org/api/ngResource/service/$resource)支持模块。现在我们需要的是查询整个节目和介绍通过id来实现。刷新这个页面你将会看到api/shows 404 (Not Found)错误，其他的东西将会像其它期望的那样发生。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-12.png)
 让我们回到Express应用，实施数据库的schemas结构和API router。<p>
 ####Step 4: Database Schemas
