@@ -573,11 +573,47 @@ angular.module('MyApp')
     return $resource('/api/shows/:_id');
   }]);
 ```
-
-
-
-
-
+这个你见过的最简单的服务，要多亏了<code>angular-resource.js</code>这个模块，为我们做了繁重的工作。这个$resources是一个完美的RESTFUL(https://docs.angularjs.org/api/ngResource/service/$resource)支持模块。现在我们需要的是查询整个节目和介绍通过id来实现。刷新这个页面你将会看到api/shows 404 (Not Found)错误，其他的东西将会像其它期望的那样发生。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-12.png)
+让我们回到Express应用，实施数据库的schemas结构和API router。<p>
+####Step 4: Database Schemas
+2014年6月8日更新。<p>
+安装[mongoose](http://mongoosejs.com/)和通过[bcryptjs](https://github.com/dcodeIO/bcrypt.js)下面的命令。<p>
+```
+npm install --save mongoose bcryptjs
+```
+在<code>server.js</code>中加入下面两行<p>
+```
+var mongoose = require('mongoose');
+var bcrypt = require('bcryptjs');
+```
+就在下面加入mogobd的数据结构<p>
+```
+var showSchema = new mongoose.Schema({
+  _id: Number,
+  name: String,
+  airsDayOfWeek: String,
+  airsTime: String,
+  firstAired: Date,
+  genre: [String],
+  network: String,
+  overview: String,
+  rating: Number,
+  ratingCount: Number,
+  status: String,
+  poster: String,
+  subscribers: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
+  }],
+  episodes: [{
+      season: Number,
+      episodeNumber: Number,
+      episodeName: String,
+      firstAired: Date,
+      overview: String
+  }]
+});
+```
 
 
 
