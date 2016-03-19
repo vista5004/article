@@ -614,7 +614,7 @@ var showSchema = new mongoose.Schema({
   }]
 });
 ```
-
+schema数据结构是你的数据在MongoDB中的数据表示，这里是一个可以存储特殊类型的存档。这块存档是独特的、需要的，只能包含了特定字符串。<p>
 
 
 
