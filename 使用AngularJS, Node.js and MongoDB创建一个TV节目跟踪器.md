@@ -676,6 +676,23 @@ app.get('/api/shows', function(req, res, next) {
   });
 });
 ```
+app.get('/api/shows/:id', function(req, res, next) {
+  Show.findById(req.params.id, function(err, show) {
+    if (err) return next(err);
+    res.send(show);
+  });
+});
+```
+你已经注意<code>next</code>参数，如果发生错误这个错误就会被传进error中间件并且被处理，如何处理这个错误取决于你。一个传统的实现方法是在控制台打印一个堆栈跟踪，把错误信息返回给使用者。<p>
+这个错误中间件位于路由的末端，当发生一个错误，这个堆栈跟踪器会在控制台输出，把错误信息以JSON形式反应出来。<p>
+```
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.send(500, { message: err.message });
+});
+```
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-13.png)
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-14.png)
 
 
 
