@@ -619,6 +619,66 @@ schema数据结构是你的数据在MongoDB中的数据表示，这里是一个�
 1.这个默认的字段<code>_id</code>已经被TVDB里的ID数值重写，没有在这个字段里有两个<code>_id</code>和<code>showId</code>。<p>
 2.这个<code>subscribers</code>字段是用户的ID，我们还没有创建schema结构，基本上是用户文档的引用。<p>
 
+接下来我们写一个用户的schema结构
+```
+var userSchema = new mongoose.Schema({
+  email: { type: String, unique: true },
+  password: String
+});
+
+userSchema.pre('save', function(next) {
+  var user = this;
+  if (!user.isModified('password')) return next();
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+    if (err) return cb(err);
+    cb(null, isMatch);
+  });
+};
+```
+这里我们使用[pre-save mongoose middleware ](http://mongoosejs.com/docs/middleware.html)和[ instance method](http://mongoosejs.com/docs/guide.html#methods)用于密码验证，这些代码直接从[passport-local](https://github.com/jaredhanson/passport-local)获取。<p>
+现在我们这里已经有schemas结构了，已经创建了一个mongoose模型用于mongodb数据库的查询。schema结构仅仅是数据的抽象表示，另一方面说这个模型是MongoDB数据库增删减查的粘结剂。<p>
+```
+var User = mongoose.model('User', userSchema);
+var Show = mongoose.model('Show', showSchema);
+```
+链接数据库的代码。<p>
+```
+mongoose.connect('localhost');
+```
+通过<code>mongod</code>启动MongoDB服务器，然后重新运行<code>server.js</code>让我们的应用继续运行。<p>
+####第四步：Express API Routes
+我们现在要创建两个路由，第一个是用于所有电视剧的查询，另一个是针对查询单个ID的电视剧。<p>
+在中间件后面增加这些路由：
+```
+app.get('/api/shows', function(req, res, next) {
+  var query = Show.find();
+  if (req.query.genre) {
+    query.where({ genre: req.query.genre });
+  } else if (req.query.alphabet) {
+    query.where({ name: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
+  } else {
+    query.limit(12);
+  }
+  query.exec(function(err, shows) {
+    if (err) return next(err);
+    res.send(shows);
+  });
+});
+```
+
+
+
 
 
 
