@@ -615,6 +615,9 @@ var showSchema = new mongoose.Schema({
 });
 ```
 schema数据结构是你的数据在MongoDB中的数据表示，这里是一个可以存储特殊类型的存档。这块存档是独特的、需要的，只能包含了特定字符串。<p>
+上面所有的内容和[TheTVDB.com API](http://thetvdb.com/)的数据回应几乎是完全匹配。下面有两点需要记一下：<p>
+1.这个默认的字段<code>_id</code>已经被TVDB里的ID数值重写，没有在这个字段里有两个<code>_id</code>和<code>showId</code>。<p>
+2.这个<code>subscribers</code>字段是用户的ID，我们还没有创建schema结构，基本上是用户文档的引用。<p>
 
 
 
