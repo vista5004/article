@@ -676,6 +676,8 @@ app.get('/api/shows', function(req, res, next) {
   });
 });
 ```
+最初我有三种不同的路由在首页找到最受欢迎的电视剧，通过题材查找和通过字母查找。但是他们基本做的同样的事情，所以我把它们合并到同一个路由，使用Mongoose查询创建者，动态构建一个数据查询。<p>
+```
 app.get('/api/shows/:id', function(req, res, next) {
   Show.findById(req.params.id, function(err, show) {
     if (err) return next(err);
@@ -693,7 +695,6 @@ app.use(function(err, req, res, next) {
 ```
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-13.png)
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-14.png)
-
 
 
 
