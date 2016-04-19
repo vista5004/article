@@ -795,18 +795,30 @@ app.post('/api/shows', function(req, res, next) {
   });
 });
 ```
-2014年6月24日更新，已经在<code>show.save()</code>添加了一个为重复的电视剧添加了错误处理代码，不能在MogooDB中获取重复ID，如果选择覆盖这个<code> _id </code>，用<code> showid </code>来替代，你就需要显式设置的独特的属性，就像我们处理<code>userSchema</code>一样。
-
-
-
-
-
-
-
-
-
-
-
+2014年6月24日更新，已经在<code>show.save()</code>添加了一个为重复的电视剧添加了错误处理代码，不能在MogooDB中获取重复ID，如果选择覆盖这个<code> _id </code>，用<code> showid </code>来替代，你就需要显式设置的独特的属性，就像我们处理<code>userSchema</code>一样。<p>
+409状态码没有什么特别的，它仅仅是一个普通的HTTP状态码表示一些冲突。<p>
+当我们创建一个AddCtrl控制器的时候，这个错误信息会在下一步生成和处理。<p>
+增加了一个验证用来验证<code>seriesid</code>，如果错误则意味着TVDB API没有返回信息。所以返回一个<code>404</code>状态码到AngularJS app中，并且带有没有show的信息。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-35.png)
+第一步需要获取(API KEYS)[http://thetvdb.com/?tab=apiregister]，或者你可以使用本教程的keys，这个(xml2js)[https://github.com/Leonidas-from-XIV/node-xml2js]解析器用来配置正常化所有的小写和禁止转换的内容到数组中，直到只有一个子元素。<p>
+slugified的电视剧用下划线代替了破折号，因为这个API信息所规定的。如果你输入Breaking Bad你会得到Breaking_Bad。<p>
+我使用(async.waterfall)[https://github.com/caolan/async#waterfalltasks-callback]来管理多个异步，如下变化的：<br>
+1、得到 Show ID然后得出Show name然后传递给下一个函数。<br>
+2、从前一步中使用 Show ID得到Show information，然后传递一个新的<code> Show</code>对象给这个方法。<br>
+3、转换海报格式到Base64，用<code>show.poster</code>，并且传递<code>show</code>到最终的函数。<br>
+4、在数据库中保存<code>show</code>。<br>
+你可能奇怪为什么在MongoDB中保持Base64格式的图片，原因就是我有(Amazon S3 )[http://aws.amazon.com/cn/s3/]用来保存这些图片，因为它不是免费的，所以我不希望每个人都有一个帐号。另一方面，每张图片都比Base64格式的图片大30%，根据( MongoLab)[https://www.mongohq.com/pricing/]和(MongoHQ)[https://mlab.com/plans/pricing/]500MB以内是免费的。<p>
+![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-15.png)
+在开始之前，别忘了安装和增加依赖。<p>
+```
+npm install --save async request xml2js lodash
+```
+```
+var async = require('async');
+var request = require('request');
+var xml2js = require('xml2js');
+var _ = require('lodash');
+```
 
 
 
