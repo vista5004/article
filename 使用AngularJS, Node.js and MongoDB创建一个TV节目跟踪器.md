@@ -807,7 +807,7 @@ slugified的电视剧用下划线代替了破折号，因为这个API信息所�
 2、从前一步中使用 Show ID得到Show information，然后传递一个新的<code> Show</code>对象给这个方法。<br>
 3、转换海报格式到Base64，用<code>show.poster</code>，并且传递<code>show</code>到最终的函数。<br>
 4、在数据库中保存<code>show</code>。<br>
-你可能奇怪为什么在MongoDB中保持Base64格式的图片，原因就是我有(Amazon S3 )[http://aws.amazon.com/cn/s3/]用来保存这些图片，因为它不是免费的，所以我不希望每个人都有一个帐号。另一方面，每张图片都比Base64格式的图片大30%，根据( MongoLab)[https://www.mongohq.com/pricing/]和(MongoHQ)[https://mlab.com/plans/pricing/]500MB以内是免费的。<p>
+你可能奇怪为什么在MongoDB中保持Base64格式的图片，原因就是我有(AmazonS3)[http://aws.amazon.com/cn/s3/]用来保存这些图片，因为它不是免费的，所以我不希望每个人都有一个帐号。另一方面，每张图片都比Base64格式的图片大30%，根据(MongoLab)[https://www.mongohq.com/pricing/]和(MongoHQ)[https://mlab.com/plans/pricing/]500MB以内是免费的。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-15.png)
 在开始之前，别忘了安装和增加依赖。<p>
 ```
