@@ -15,8 +15,23 @@
 4.消失。</br>
 5.把字体颜色变成红色。</br>
 这就是我需要实现的动画步骤。但是这里有另外一些关于这个logo的东西需要解决：**字母在商标中心是倾斜的。**<p>
-
-
+大家一直问我如何做到这些。<p>
+我做了许多3D实验，所以这对我来说不是很难。<p>
+###使字母变倾斜
+以这个词“Netflix”的一些基本标记开始。<p>
+```
+<div class="logo">
+  <span>N</span>
+  <span>E</span>
+  <span>T</span>
+  <span>F</span>
+  <span>L</span>
+  <span>I</span>
+  <span>X</span>
+</div>
+```
+我用类<code>logo</code>做了一个包装，并且用<code>span</code>标签包裹每一个字母。<p>
+然后我在Y轴上旋转这个字母并且在X轴上缩放这个字母以保持它的原始宽度。重要的部分是在<code><div class="loga"></div></code>上设置一个景深<code>perspective </code>，并且定义它的景深原点<code> perspective-origi</code>。
 
 
 
