@@ -52,7 +52,7 @@ span {
 }
 ```
 这里还有一些其它的方式来实现这些，例如使用一个不同景深（比如500px），旋转角度（比如9deg）和扭曲值（比如0.5），但是这些值能实现我最需要的效果。<p>
-下面是在CODEPEN实现的小例子：(没有找到markdown嵌入CODEPEN的方法)
+下面是在CODEPEN实现的小例子：(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，)<p>
 *jade实现*
 ```
 div(class="fig--1")
@@ -107,3 +107,4 @@ div(class="fig--1")
   transform: scaleX(80) rotateY(89.5deg);
 }
 ```
+<iframe src="//codepen.io/pixelass/embed/raEojV?height=446&theme-id=0&slug-hash=raEojV&default-tab=result&user=pixelass""></iframe>
