@@ -317,7 +317,7 @@ div(class="fig--2")
 ```
 ###一个用于阴影的函数
 写一个实现3d效果和阴影的函数。我把视频停在某一帧，并且仔细查看细节。<p>.
-![Image extracted from the original animated Netflix logo](http://hugogiraudel.com/images/netflix-logo-in-css/shadow.png)
+![Image extracted from the original animated Netflix logo](http://hugogiraudel.com/images/netflix-logo-in-css/shadow.png)<p>
 正如你所看到的，当这个阴影到达右下角，3d效果的消失点在中间。现在知道我们函数需要做什么了。<p>
 我们将会在keyframes中调用这个函数，所以我们希望他能处理一些值，例如：<br>
 <ul>
@@ -328,7 +328,7 @@ div(class="fig--2")
   <li>mix</li>
 </ul>
 我们还需要一个参数来定义阴影的深度。<p>
-![My CSS implementation of the previously shown image](http://hugogiraudel.com/images/netflix-logo-in-css/shadow-css.png)
+![My CSS implementation of the previously shown image](http://hugogiraudel.com/images/netflix-logo-in-css/shadow-css.png)<p>
 下面就是用来处理这些需求的函数。<p>
 ```
 /// 在特定方向创创建三维阴影
@@ -339,7 +339,7 @@ div(class="fig--2")
 /// @param  {Unit}          $y     - 在y轴上到下一个阴影的距离
 /// @param  {Unit}          $blur  - text-shadow的模糊距离
 /// @param  {Color|false}   $mix   - 添加一个可选的颜色来混合
-/// @return {List}          - 返回text-shadow
+/// @return {List}          - 返回text-shadow列表
 @function d3($depth, $color, $x: 1px, $y: 1px, $blur: 0, $mix: false) {
   $shadow: ();
 
@@ -365,6 +365,171 @@ $shadow: ();
   <li>from 0 to 5 = 0, 1, 2, 3, 4</li>
   <li>from 0 through 5 = 0, 1, 2, 3, 4, 5</li>
 </ul>
+每一次迭代我都添加一个text-shadow到这个列表。所以最后这个列表看起来就是下面这个样子：<br/>
+```
+$shadow: (0 1px 0 red, 1px 2px 0 red, 2px 3px 0 red, ...);
+```
+使用的时候就像下面这样：<br/>
+```
+text-shadow: d3(5, red, [$x], [$y], [$blur], [$mix]);
+```
+$x,$y,$blur和$mix都是可选的参数。我已经提到我将会在keyframes中调用这个函数，所以我需要可选择性的改变他们。 $mix允许添加第二个颜色，实现这个阴影从一种颜色淡出成另外一种颜色。<p>
+下面是例子：
+*jade*
+```
+div(class="fig--3")
+  style. 
+    @import 'http://codepen.io/pixelass/pen/XJLOXg.css';
+  .logo
+    span N
+    span E
+    span T
+    span F
+    span L
+    span I
+    span X
+  p(style="height: 50px")
+```
+*html*
+```
+<div class="fig--3">
+  <style>@import 'http://codepen.io/pixelass/pen/XJLOXg.css';</style>
+  <div class="logo">
+    <span>N</span>
+    <span>E</span>
+    <span>T</span>
+    <span>F</span>
+    <span>L</span>
+    <span>I</span>
+    <span>X</span>
+  </div>
+  <p style="height: 50px"></p>
+</div>
+```
+*scss*
+```
+/// Create a 3d-shadow in a certain direction
+/// @author Gregor Adams
+/// @param  {Number}        $depth - 阴影长度
+/// @param  {Unit}          $color - 阴影颜色
+/// @param  {Unit}          $x     - 在x轴上到下一个阴影的距离
+/// @param  {Unit}          $y     - 在y轴上到下一个阴影的距离
+/// @param  {Unit}          $blur  - text-shadow的模糊距离
+/// @param  {Color|false}   $mix   - 添加一个可选的颜色来混合
+/// @return {List}          - 返回一个text-shadow列表
+@function d3($depth, $color, $x: 1px, $y: 1px, $blur: 0, $mix: false) {
+  $shadow: ();
+  @for $i from 1 through $depth {
+    // append to the existing shadow
+    @if type-of($mix) != 'color' {
+      $shadow: append($shadow, round($i * $x) round($i * $y) $blur $color, comma);
+    } @else {
+      $shadow: append($shadow, round($i * $x) round($i * $y) $blur mix($mix,$color,0.3%*$i), comma);
+    }
+  }
+  @return $shadow;
+}
+$c_fg:         #f00;
+$c_bg:         #fff;
+$c_3d:         #f2f2f2;
+$c_shadow:     #dadada;
+$c_shadow-mix: #6998da;
+.fig--3 {
+  .logo {
+    perspective: 1000px;
+    perspective-origin: 50% 0;
+    font-size: 8em;
+    display: inline-flex;
+    span {
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      display: block;
+      color: $c_bg;
+      $letters: 7;
+      @for $i from 1 through $letters {
+        $offset: $i - ceil($letters / 2);
+        $trans: if($offset > 0, -89.5deg, 89.5deg);
+        &:nth-child(#{$i}) {
+          // trans/de-form the letters
+          transform-origin: 50% + 50%/$offset 200%;
+          font-size: if($offset == 0,
+            0.85em,
+            0.9em + 0.015*pow(abs($offset),2));
+          transform: 
+              if($offset == 0, scale(1, 1), scale(95.9 - abs($offset) * 10, 1)) 
+              if($offset == 0, translatey(0%), rotatey($trans));
+           text-shadow: 
+            d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 0), 
+            d3(30, $c_shadow, 2px, 3px, 3px, $c_shadow-mix);
+        }
+      }
+    }
+  }
+}
+```
+*css*
+```
+.fig--3 .logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+  font-size: 8em;
+  display: inline-flex;
+}
+.fig--3 .logo span {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: block;
+  color: #fff;
+}
+.fig--3 .logo span:nth-child(1) {
+  transform-origin: 33.33333% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(89.5deg);
+  text-shadow: 1px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 4px 0 0 #f2f2f2, 5px 0 0 #f2f2f2, 5px 0 0 #f2f2f2, 6px 0 0 #f2f2f2, 7px 0 0 #f2f2f2, 8px 0 0 #f2f2f2, 8px 0 0 #f2f2f2, 9px 0 0 #f2f2f2, 10px 0 0 #f2f2f2, 11px 0 0 #f2f2f2, 11px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(2) {
+  transform-origin: 25% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(89.5deg);
+  text-shadow: 1px 0 0 #f2f2f2, 1px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 4px 0 0 #f2f2f2, 4px 0 0 #f2f2f2, 5px 0 0 #f2f2f2, 5px 0 0 #f2f2f2, 6px 0 0 #f2f2f2, 6px 0 0 #f2f2f2, 7px 0 0 #f2f2f2, 7px 0 0 #f2f2f2, 8px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(3) {
+  transform-origin: 0% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(89.5deg);
+  text-shadow: 0px 0 0 #f2f2f2, 1px 0 0 #f2f2f2, 1px 0 0 #f2f2f2, 1px 0 0 #f2f2f2, 1px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 2px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 3px 0 0 #f2f2f2, 4px 0 0 #f2f2f2, 4px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(4) {
+  transform-origin: Infinity% 200%;
+  font-size: 0.85em;
+  transform: scale(1, 1) translatey(0%);
+  text-shadow: 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 0 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(5) {
+  transform-origin: 100% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(-89.5deg);
+  text-shadow: -1px 0 0 #f2f2f2, -1px 0 0 #f2f2f2, -1px 0 0 #f2f2f2, -1px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(6) {
+  transform-origin: 75% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(-89.5deg);
+  text-shadow: -1px 0 0 #f2f2f2, -1px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -5px 0 0 #f2f2f2, -5px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -7px 0 0 #f2f2f2, -7px 0 0 #f2f2f2, -8px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+.fig--3 .logo span:nth-child(7) {
+  transform-origin: 66.66667% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(-89.5deg);
+  text-shadow: -1px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -5px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -7px 0 0 #f2f2f2, -8px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -10px 0 0 #f2f2f2, -11px 0 0 #f2f2f2, -12px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
+}
+
+```
+
+
+
+
+
+
+
 
 
 
