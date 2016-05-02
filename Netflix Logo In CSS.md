@@ -107,7 +107,7 @@ div(class="fig--1")
   transform: scaleX(80) rotateY(89.5deg);
 }
 ```
-*实际效果*
+*实际效果*<p>
 ![all text](http://upload-images.jianshu.io/upload_images/971705-a63b11ec3f8f8c9a.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)<p>
 接下来我要对所有的字母应用这个样式，中间的字母不要变化。右边的字母朝着相反的方向倾斜，并且字母高度发生变化。<p>
 为了实现这些需要增加一些新逻辑：我使用SASS的标准语法来实现。<p>
@@ -317,7 +317,7 @@ div(class="fig--2")
   transform: scale(65.9, 1) rotatey(-89.5deg);
 }
 ```
-*实际效果*
+*实际效果*<p>
 ![all text](http://upload-images.jianshu.io/upload_images/971705-defda64c283c7976.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)<p>
 
 ###一个用于阴影的函数
@@ -526,7 +526,7 @@ $c_shadow-mix: #6998da;
   text-shadow: -1px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -5px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -7px 0 0 #f2f2f2, -8px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -10px 0 0 #f2f2f2, -11px 0 0 #f2f2f2, -12px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
 }
 ```
-*实际效果*
+*实际效果*<p>
 ![all text](http://upload-images.jianshu.io/upload_images/971705-dcf6346a1e88533f.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)<p>
 ###组装在一起
 因为我已经创造了许多我需要的部分，现在可以建立动画里。
