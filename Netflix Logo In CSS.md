@@ -521,22 +521,98 @@ $c_shadow-mix: #6998da;
   transform: scale(65.9, 1) rotatey(-89.5deg);
   text-shadow: -1px 0 0 #f2f2f2, -2px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -3px 0 0 #f2f2f2, -4px 0 0 #f2f2f2, -5px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -6px 0 0 #f2f2f2, -7px 0 0 #f2f2f2, -8px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -9px 0 0 #f2f2f2, -10px 0 0 #f2f2f2, -11px 0 0 #f2f2f2, -12px 0 0 #f2f2f2, 2px 3px 3px #dadada, 4px 6px 3px #d9dada, 6px 9px 3px #d9d9da, 8px 12px 3px #d9d9da, 10px 15px 3px #d8d9da, 12px 18px 3px #d8d9da, 14px 21px 3px #d8d9da, 16px 24px 3px #d7d8da, 18px 27px 3px #d7d8da, 20px 30px 3px #d7d8da, 22px 33px 3px #d6d8da, 24px 36px 3px #d6d8da, 26px 39px 3px #d6d7da, 28px 42px 3px #d5d7da, 30px 45px 3px #d5d7da, 32px 48px 3px #d5d7da, 34px 51px 3px #d4d7da, 36px 54px 3px #d4d6da, 38px 57px 3px #d4d6da, 40px 60px 3px #d3d6da, 42px 63px 3px #d3d6da, 44px 66px 3px #d3d6da, 46px 69px 3px #d2d5da, 48px 72px 3px #d2d5da, 50px 75px 3px #d2d5da, 52px 78px 3px #d1d5da, 54px 81px 3px #d1d5da, 56px 84px 3px #d1d4da, 58px 87px 3px #d0d4da, 60px 90px 3px #d0d4da;
 }
-
 ```
+###组装在一起
+因为我已经创造了许多我需要的部分，现在可以建立动画里。
+#####弹出（动画进入）
+我使用两个上面已经定义的变量$offset和$trans，动画有三个阶段，我需要仔细的决定何时到达某点。<p>
+```
+@keyframes pop-out {
+  0% {
+    transform:
+      if($offset == 0, scale(1, 1), scale(95.9 - abs($offset) * 10, 1))
+      if($offset == 0, translatey(0%), rotatey($trans));
+    text-shadow:
+      d3(15, rgba($c_3d, 0), 0, 0),
+      d3(50, rgba($c_shadow, 0), 0, 0);
+  }
 
+  50% {
+    transform:
+      if($offset == 0, scale(1.2, 1.2), scale(126.2 - abs($offset) * 10, 1.2))
+      if($offset == 0, translatey(-16%), rotatey($trans));
+    text-shadow:
+      d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 1px),
+      d3(50, $c_shadow, 1px, 3px, 3px, $c_shadow-mix);
+  }
 
+  100% {
+    transform:
+      if($offset == 0, scale(1.1, 1.1), scale(116.2 - abs($offset) * 10, 1.1))
+      if($offset == 0, translatey(-12%), rotatey($trans));
+    text-shadow:
+      d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 1px),
+      d3(50, $c_shadow, 1px, 3px, 3px, $c_shadow-mix);
+  }
+}
+```
+#####淡出（动画结尾）
+同样的步骤实现淡出的效果。
+```
+@keyframes fade-back {
+  0% {
+    transform:
+      if($offset == 0, scale(1.1, 1.1), scale(116.2 - abs($offset) * 10, 1.1))
+      if($offset == 0, translatey(-12%), rotatey($trans));
+    text-shadow:
+      d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 1px),
+      d3(50, $c_shadow, 1px, 3px, 3px, $c_shadow-mix);
+  }
 
+  20% {
+    transform:
+      if($offset == 0, scale(1.05, 1.05), scale(105.9 - abs($offset) * 10, 1.05))
+      if($offset == 0, translatey(-7%), rotatey($trans));
+    text-shadow:
+      d3(15, rgba($c_3d, 0), 0, 0),
+      d3(50, rgba($c_shadow, 0), 0, 0);
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  100% {
+    transform:
+      if($offset == 0, scale(1, 1), scale(95.9 - abs($offset) * 10, 1))
+      if($offset == 0, translatey(0%), rotatey($trans));
+    text-shadow:
+      d3(15, rgba($c_3d, 0), 0, 0),
+      d3(50, rgba($c_shadow, 0), 0, 0);
+  }
+}
+```
+#####  改变字体颜色
+还需要提供一个动画改变字体颜色。
+```
+@keyframes change-color {
+  0% {
+    color: $c_bg;
+  }
+  100% {
+    color: $c_fg;
+  }
+}
+```
+##### 触发这个动画
+现在我们可以像下面这样把动画连接在一起。
+```
+animation-name: pop-out, fade-back, change-color;
+animation-duration: 4s, 2s, 0.1s;
+animation-delay: 0s, 2s, 3.2s
+```
+上面的代码只是一个近似的实现，每个字母有不同的动画延迟和间隔，可以点击这里查看最终的实现效果[Netflix animation in pure CSS](http://codepen.io/pixelass/pen/MYYReK)。<p>
+最后通知一下，我使用了一些不可思议的技巧来实现在纯CSS中再次触发动画，我将会在接下来的文章中解释。<p>
+做实验的时候并不是十分高兴，因为写文章的时候我想到了其它几个提高效果的方法。<p>
+为了写这篇文章我重新写了整个Sass代码，但是我仍然觉得我嫩提升一些部分。这就是我不间断做实验的主要原因。让我变得更加聪明，和在一些以前没有涉足过的方向有新的突破。<p>
+我几乎没有在实际的项目中用到这样的技术，但是我经常使用函数来提升效果。不论如何希望你喜欢这篇文章。<p>
+*
+[Gregor Adams](https://twitter.com/gregoradams)是一位来自Hamburg的前端开发者，他对CSS和Sass有极大的热情。从他的codepen中可以看出他强大的CSS技术。
+*
+######原文链接：[Netflix Logo In CSS](http://hugogiraudel.com/2015/04/15/netflix-logo-in-css/#first-concept)
