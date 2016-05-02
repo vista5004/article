@@ -52,7 +52,7 @@ span {
 }
 ```
 这里还有一些其它的方式来实现这些，例如使用一个不同景深（比如500px），旋转角度（比如9deg）和扭曲值（比如0.5），但是这些值能实现我最需要的效果。<p>
-下面是在CODEPEN实现的小例子：(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，)<p>
+下面是在CODEPEN实现的小例子：(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读)<p>
 *jade实现*
 ```
 div(class="fig--1")
@@ -107,4 +107,15 @@ div(class="fig--1")
   transform: scaleX(80) rotateY(89.5deg);
 }
 ```
-<iframe src="//codepen.io/pixelass/embed/raEojV?height=446&theme-id=0&slug-hash=raEojV&default-tab=result&user=pixelass"">sdfsadf</iframe>
+接下来我要对所有的字母应用这个样式，中间的字母不要变化。右边的字母朝着相反的方向倾斜，并且字母高度发生变化。
+
+
+
+
+
+
+
+
+
+
+
