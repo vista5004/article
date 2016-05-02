@@ -207,7 +207,15 @@ div(class="fig--2")
 ```
 <div class="fig--2">
   <style>@import 'http://codepen.io/pixelass/pen/yydGPL.css';</style>
-  <div class="logo"><span>N</span><span>E</span><span>T</span><span>F</span><span>L</span><span>I</span><span>X</span></div>
+  <div class="logo">
+    <span>N</span>
+    <span>E</span>
+    <span>T</span>
+    <span>F</span>
+    <span>L</span>
+    <span>I</span>
+    <span>X</span>
+  </div>
 </div>
 ```
 *scss*
@@ -306,6 +314,5 @@ div(class="fig--2")
   font-size: 1.035em;
   transform: scale(65.9, 1) rotatey(-89.5deg);
 }
-
 ```
 
