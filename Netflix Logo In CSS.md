@@ -31,7 +31,7 @@
 </div>
 ```
 我用类<code>logo</code>做了一个包装，并且用<code>span</code>标签包裹每一个字母。<p>
-然后我在Y轴上旋转这个字母并且在X轴上缩放这个字母以保持它的原始宽度。重要的部分是在<code><div class="loga"></code>上设置一个景深<code>perspective </code>，并且定义它的景深原点<code> perspective-origi</code>。
+然后我在Y轴上旋转这个字母并且在X轴上缩放这个字母以保持它的原始宽度。重要的部分是在<code> class="loga"</code>包装上设置一个景深<code>perspective </code>，并且定义它的景深原点<code> perspective-origi</code>。
 
 
 
