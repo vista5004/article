@@ -1,7 +1,7 @@
 # Netflix Logo In CSS
 *这篇博客是[Gregor Adams](https://twitter.com/gregoradams)关于他如何设法如何用CSS重现Netflix商标。Gregor当他涉足CSS方面是star增速冠军。能在这里谈论他也是非常荣誉的。*<p>
 几个月前我尝试Netflix（一家在线影片租赁提供商），立即就把我迷住了。我观看了一些列以前在别处看的节目。每一集电视剧或者电影都已Netflix动画开始。<p>
-<center>![Alt text](http://hugogiraudel.com/images/netflix-logo-in-css/logo.gif)</center><p>
+![Original animated Netflix logo](http://hugogiraudel.com/images/netflix-logo-in-css/logo.gif)<p>
 我突然开始想用CSS来实现。所以看了几集后就到[CodePen](http://codepen.io/pixelass/)来实现这个logo。<p>
 ###第一个概念
 我的第一个实施方式是有点不洁的，因为我尝试采用一点新东西。<p>
@@ -315,4 +315,63 @@ div(class="fig--2")
   transform: scale(65.9, 1) rotatey(-89.5deg);
 }
 ```
+###一个用于阴影的函数
+写一个实现3d效果和阴影的函数。我把视频停在某一帧，并且仔细查看细节。<p>.
+![Image extracted from the original animated Netflix logo](http://hugogiraudel.com/images/netflix-logo-in-css/shadow.png)
+正如你所看到的，当这个阴影到达右下角，3d效果的消失点在中间。现在知道我们函数需要做什么了。<p>
+我们将会在keyframes中调用这个函数，所以我们希望他能处理一些值，例如：<br>
+<ul>
+  <li>color</li>
+  <li>x</li>
+  <li>y</li>
+  <li>blur</li>
+  <li>mix</li>
+</ul>
+我们还需要一个参数来定义阴影的深度。<p>
+![My CSS implementation of the previously shown image](http://hugogiraudel.com/images/netflix-logo-in-css/shadow-css.png)
+下面就是用来处理这些需求的函数。<p>
+```
+/// 在特定方向创创建三维阴影
+/// @author Gregor Adams
+/// @param  {Number}        $depth - 阴影长度
+/// @param  {Unit}          $color - 阴影颜色
+/// @param  {Unit}          $x     - 在x轴上到下一个阴影的距离
+/// @param  {Unit}          $y     - 在y轴上到下一个阴影的距离
+/// @param  {Unit}          $blur  - text-shadow的模糊距离
+/// @param  {Color|false}   $mix   - 添加一个可选的颜色来混合
+/// @return {List}          - 返回text-shadow
+@function d3($depth, $color, $x: 1px, $y: 1px, $blur: 0, $mix: false) {
+  $shadow: ();
+
+  @for $i from 1 through $depth {
+    // append to the existing shadow
+    @if type-of($mix) != 'color' {
+      $shadow: append($shadow, round($i * $x) round($i * $y) $blur $color, comma);
+
+    } @else {
+      $shadow: append($shadow, round($i * $x) round($i * $y) $blur mix($mix, $color, 0.3%*$i), comma);
+    }
+  }
+  @return $shadow;
+}
+```
+这个函数对于sass菜鸟或者只使用基本语言特性的开发者和设计师来说可能有点难理解，所以让我来详细解释一下.<p>
+我以一个<code>$shadow</code>的变量开始，<code>list</code>是一个空的列表。
+```
+$shadow: ();
+```
+我是从1开始循环到列表的深度。通过Sass意味着我们迭代包括以下的值。
+<ul>
+  <li>from 0 to 5 = 0, 1, 2, 3, 4</li>
+  <li>from 0 through 5 = 0, 1, 2, 3, 4, 5</li>
+</ul>
+
+
+
+
+
+
+
+
+
 
