@@ -107,15 +107,205 @@ div(class="fig--1")
   transform: scaleX(80) rotateY(89.5deg);
 }
 ```
-接下来我要对所有的字母应用这个样式，中间的字母不要变化。右边的字母朝着相反的方向倾斜，并且字母高度发生变化。
+接下来我要对所有的字母应用这个样式，中间的字母不要变化。右边的字母朝着相反的方向倾斜，并且字母高度发生变化。<p>
+为了实现这些需要增加一些新逻辑：我使用SASS的标准语法来实现。<p>
+*scss代码*
+```
+.logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+  font-size: 8em;
+  display: inline-flex;
 
+  span {
+    font-family: impact;
+    display: block;
 
+    $letters: 7;
+    @for $i from 1 through $letters {
+      $offset: $i - ceil($letters / 2);
+      $trans: if($offset > 0, -89.5deg, 89.5deg);
 
+      &:nth-child(#{$i}) {
+        // trans/de-form the letters
+        transform-origin: 50% + 50%/$offset 200%;
+        font-size: if($offset == 0,
+          0.85em,
+          0.9em + 0.015*pow(abs($offset),2));
+        transform:
+            if($offset == 0, scale(1, 1), scale(95.9 - abs($offset) * 10, 1))
+            if($offset == 0, translatey(0%), rotatey($trans));
+      }
+    }
+  }
+}
+```
+*为了方便不懂scss同学立即，这是我编译后的css代码*
+```
+.logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+  font-size: 8em;
+  display: inline-flex;
+}
+.logo span {
+  font-family: impact;
+  display: block;
+}
+.logo span:nth-child(1) {
+  transform-origin: 33.33333333% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(89.5deg);
+}
+.logo span:nth-child(2) {
+  transform-origin: 25% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(89.5deg);
+}
+.logo span:nth-child(3) {
+  transform-origin: 0% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(89.5deg);
+}
+.logo span:nth-child(4) {
+  transform-origin: Infinity% 200%;
+  font-size: 0.85em;
+  transform: scale(1, 1) translatey(0%);
+}
+.logo span:nth-child(5) {
+  transform-origin: 100% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(-89.5deg);
+}
+.logo span:nth-child(6) {
+  transform-origin: 75% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(-89.5deg);
+}
+.logo span:nth-child(7) {
+  transform-origin: 66.66666667% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(-89.5deg);
+}
+```
+这里是demo代码块(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读):<p>
+*jade*
+```
+div(class="fig--2")
+  style. 
+    @import 'http://codepen.io/pixelass/pen/yydGPL.css';
+  .logo
+    span N
+    span E
+    span T
+    span F
+    span L
+    span I
+    span X
+```
+*html*
+```
+<div class="fig--2">
+  <style>@import 'http://codepen.io/pixelass/pen/yydGPL.css';</style>
+  <div class="logo"><span>N</span><span>E</span><span>T</span><span>F</span><span>L</span><span>I</span><span>X</span></div>
+</div>
+```
+*scss*
+```
+.fig--2 .logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+  font-size: 8em;
+  display: inline-flex;
+}
+.fig--2 .logo span {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: block;
+}
+.fig--2 .logo span:nth-child(1) {
+  transform-origin: 33.33333333% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(2) {
+  transform-origin: 25% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(3) {
+  transform-origin: 0% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(4) {
+  transform-origin: Infinity% 200%;
+  font-size: 0.85em;
+  transform: scale(1, 1) translatey(0%);
+}
+.fig--2 .logo span:nth-child(5) {
+  transform-origin: 100% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(-89.5deg);
+}
+.fig--2 .logo span:nth-child(6) {
+  transform-origin: 75% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(-89.5deg);
+}
+.fig--2 .logo span:nth-child(7) {
+  transform-origin: 66.66666667% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(-89.5deg);
+}
 
+```
+*css*
+```
+.fig--2 .logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+  font-size: 8em;
+  display: inline-flex;
+}
+.fig--2 .logo span {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: block;
+}
+.fig--2 .logo span:nth-child(1) {
+  transform-origin: 33.33333333% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(2) {
+  transform-origin: 25% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(3) {
+  transform-origin: 0% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(89.5deg);
+}
+.fig--2 .logo span:nth-child(4) {
+  transform-origin: Infinity% 200%;
+  font-size: 0.85em;
+  transform: scale(1, 1) translatey(0%);
+}
+.fig--2 .logo span:nth-child(5) {
+  transform-origin: 100% 200%;
+  font-size: 0.915em;
+  transform: scale(85.9, 1) rotatey(-89.5deg);
+}
+.fig--2 .logo span:nth-child(6) {
+  transform-origin: 75% 200%;
+  font-size: 0.96em;
+  transform: scale(75.9, 1) rotatey(-89.5deg);
+}
+.fig--2 .logo span:nth-child(7) {
+  transform-origin: 66.66666667% 200%;
+  font-size: 1.035em;
+  transform: scale(65.9, 1) rotatey(-89.5deg);
+}
 
-
-
-
-
-
+```
 
