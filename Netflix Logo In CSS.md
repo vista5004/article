@@ -51,5 +51,59 @@ span {
   transform: scaleX(80) rotateY(89.5deg);
 }
 ```
-
-
+这里还有一些其它的方式来实现这些，例如使用一个不同景深（比如500px），旋转角度（比如9deg）和扭曲值（比如0.5），但是这些值能实现我最需要的效果。<p>
+下面是在CODEPEN实现的小例子：(没有找到markdown嵌入CODEPEN的方法)
+*jade实现*
+```
+div(class="fig--1")
+  style. 
+    @import 'http://codepen.io/pixelass/pen/raEojV.css';
+  p Original:
+  span N
+  p Transformed:
+  .logo
+    span N
+```
+*html实现*
+```
+<div class="fig--1">
+  <style>@import 'http://codepen.io/pixelass/pen/raEojV.css';</style>
+  <p>Original:</p><span>N</span>
+  <p>Transformed:</p>
+  <div class="logo"><span>N</span></div>
+</div>
+```
+*scss实现*
+```
+.fig--1 {
+  span {
+    font-size: 8em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    display: block;
+  }
+  .logo {
+    perspective: 1000px;
+    perspective-origin: 50% 0;
+    span {
+      transform-origin: 0 0;
+      transform: scaleX(80) rotateY(89.5deg);
+    }
+  }
+}
+```
+*css实现*
+```
+.fig--1 span {
+  font-size: 8em;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  display: block;
+}
+.fig--1 .logo {
+  perspective: 1000px;
+  perspective-origin: 50% 0;
+}
+.fig--1 .logo span {
+  transform-origin: 0 0;
+  transform: scaleX(80) rotateY(89.5deg);
+}
+```
