@@ -52,7 +52,7 @@ span {
 }
 ```
 这里还有一些其它的方式来实现这些，例如使用一个不同景深（比如500px），旋转角度（比如9deg）和扭曲值（比如0.5），但是这些值能实现我最需要的效果。<p>
-下面是在CODEPEN实现的小例子：(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读)<p>
+下面是在CODEPEN实现的小例子：（原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读）<p>
 *jade实现*
 ```
 div(class="fig--1")
@@ -188,7 +188,7 @@ div(class="fig--1")
   transform: scale(65.9, 1) rotatey(-89.5deg);
 }
 ```
-这里是demo代码块(原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读):<p>
+这里是demo代码块（原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读）<p>
 *jade*
 ```
 div(class="fig--2")
@@ -342,7 +342,6 @@ div(class="fig--2")
 /// @return {List}          - 返回text-shadow列表
 @function d3($depth, $color, $x: 1px, $y: 1px, $blur: 0, $mix: false) {
   $shadow: ();
-
   @for $i from 1 through $depth {
     // append to the existing shadow
     @if type-of($mix) != 'color' {
@@ -536,7 +535,6 @@ $c_shadow-mix: #6998da;
       d3(15, rgba($c_3d, 0), 0, 0),
       d3(50, rgba($c_shadow, 0), 0, 0);
   }
-
   50% {
     transform:
       if($offset == 0, scale(1.2, 1.2), scale(126.2 - abs($offset) * 10, 1.2))
@@ -545,7 +543,6 @@ $c_shadow-mix: #6998da;
       d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 1px),
       d3(50, $c_shadow, 1px, 3px, 3px, $c_shadow-mix);
   }
-
   100% {
     transform:
       if($offset == 0, scale(1.1, 1.1), scale(116.2 - abs($offset) * 10, 1.1))
@@ -568,7 +565,6 @@ $c_shadow-mix: #6998da;
       d3(15, $c_3d, if($offset == 0, 0, -0.25px * $offset), 1px),
       d3(50, $c_shadow, 1px, 3px, 3px, $c_shadow-mix);
   }
-
   20% {
     transform:
       if($offset == 0, scale(1.05, 1.05), scale(105.9 - abs($offset) * 10, 1.05))
@@ -577,7 +573,6 @@ $c_shadow-mix: #6998da;
       d3(15, rgba($c_3d, 0), 0, 0),
       d3(50, rgba($c_shadow, 0), 0, 0);
   }
-
   100% {
     transform:
       if($offset == 0, scale(1, 1), scale(95.9 - abs($offset) * 10, 1))
@@ -588,7 +583,7 @@ $c_shadow-mix: #6998da;
   }
 }
 ```
-#####  改变字体颜色
+##### 改变字体颜色
 还需要提供一个动画改变字体颜色。
 ```
 @keyframes change-color {
@@ -612,7 +607,5 @@ animation-delay: 0s, 2s, 3.2s
 做实验的时候并不是十分高兴，因为写文章的时候我想到了其它几个提高效果的方法。<p>
 为了写这篇文章我重新写了整个Sass代码，但是我仍然觉得我嫩提升一些部分。这就是我不间断做实验的主要原因。让我变得更加聪明，和在一些以前没有涉足过的方向有新的突破。<p>
 我几乎没有在实际的项目中用到这样的技术，但是我经常使用函数来提升效果。不论如何希望你喜欢这篇文章。<p>
-*
-[Gregor Adams](https://twitter.com/gregoradams)是一位来自Hamburg的前端开发者，他对CSS和Sass有极大的热情。从他的codepen中可以看出他强大的CSS技术。
-*
+*[Gregor Adams](https://twitter.com/gregoradams)是一位来自Hamburg的前端开发者，他对CSS和Sass有极大的热情。从他的[codepen](http://codepen.io/pixelass/)中可以看出他强大的CSS技术。*
 ######原文链接：[Netflix Logo In CSS](http://hugogiraudel.com/2015/04/15/netflix-logo-in-css/#first-concept)
