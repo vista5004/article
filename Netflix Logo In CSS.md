@@ -19,6 +19,7 @@
 我做了许多3D实验，所以这对我来说不是很难。<p>
 ###使字母变倾斜
 以这个词“Netflix”的一些基本标记开始。<p>
+<!--lang: html--> 
 ```
 <div class="logo">
   <span>N</span>
