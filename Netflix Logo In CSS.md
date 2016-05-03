@@ -33,7 +33,7 @@
 ```
 我用类<code>logo</code>做了一个包装，并且用<code>span</code>标签包裹每一个字母。<p>
 然后我在Y轴上旋转这个字母并且在X轴上缩放这个字母以保持它的原始宽度。重要的部分是在<code> class="logo"</code>包装上设置一个景深<code>perspective </code>，并且定义它的景深原点<code> perspective-origi</code>。
-```
+```CSS
 // 基础的字母样式
 span {
   font-size: 8em;
@@ -55,7 +55,7 @@ span {
 这里还有一些其它的方式来实现这些，例如使用一个不同景深（比如500px），旋转角度（比如9deg）和扭曲值（比如0.5），但是这些值能实现我最需要的效果。<p>
 下面是在CODEPEN实现的小例子：（原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读）<p>
 *jade实现*
-```
+```html
 div(class="fig--1")
   style. 
     @import 'http://codepen.io/pixelass/pen/raEojV.css';
@@ -66,7 +66,7 @@ div(class="fig--1")
     span N
 ```
 *html实现*
-```
+```html
 <div class="fig--1">
   <style>@import 'http://codepen.io/pixelass/pen/raEojV.css';</style>
   <p>Original:</p><span>N</span>
@@ -75,7 +75,7 @@ div(class="fig--1")
 </div>
 ```
 *scss实现*
-```
+```css
 .fig--1 {
   span {
     font-size: 8em;
@@ -93,7 +93,7 @@ div(class="fig--1")
 }
 ```
 *css实现*
-```
+```css
 .fig--1 span {
   font-size: 8em;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -113,7 +113,7 @@ div(class="fig--1")
 接下来我要对所有的字母应用这个样式，中间的字母不要变化。右边的字母朝着相反的方向倾斜，并且字母高度发生变化。<p>
 为了实现这些需要增加一些新逻辑：我使用SASS的标准语法来实现。<p>
 *scss代码*
-```
+```css
 .logo {
   perspective: 1000px;
   perspective-origin: 50% 0;
@@ -144,7 +144,7 @@ div(class="fig--1")
 }
 ```
 *为了方便不懂scss同学立即，这是我编译后的css代码*
-```
+```css
 .logo {
   perspective: 1000px;
   perspective-origin: 50% 0;
@@ -193,7 +193,7 @@ div(class="fig--1")
 ```
 这里是demo代码块（原demo是页面中嵌入的iframe实现嵌入CODEPEN，但是markdown没有嵌入iframe的方法，所以采用代码段来展示，并且把原demo的jade和scss写法转换成css方便没有使用过两种技术的读者阅读）<p>
 *jade*
-```
+```html
 div(class="fig--2")
   style. 
     @import 'http://codepen.io/pixelass/pen/yydGPL.css';
@@ -207,7 +207,7 @@ div(class="fig--2")
     span X
 ```
 *html*
-```
+```html
 <div class="fig--2">
   <style>@import 'http://codepen.io/pixelass/pen/yydGPL.css';</style>
   <div class="logo">
@@ -222,7 +222,7 @@ div(class="fig--2")
 </div>
 ```
 *scss*
-```
+```css
 .fig--2 .logo {
   perspective: 1000px;
   perspective-origin: 50% 0;
@@ -271,7 +271,7 @@ div(class="fig--2")
 
 ```
 *css*
-```
+```css
 .fig--2 .logo {
   perspective: 1000px;
   perspective-origin: 50% 0;
@@ -336,7 +336,7 @@ div(class="fig--2")
 我们还需要一个参数来定义阴影的深度。<p>
 ![My CSS implementation of the previously shown image](http://hugogiraudel.com/images/netflix-logo-in-css/shadow-css.png)<p>
 下面就是用来处理这些需求的函数。<p>
-```
+```css
 /// 在特定方向创创建三维阴影
 /// @author Gregor Adams
 /// @param  {Number}        $depth - 阴影长度
@@ -362,7 +362,7 @@ div(class="fig--2")
 ```
 这个函数对于sass菜鸟或者只使用基本语言特性的开发者和设计师来说可能有点难理解，所以让我来详细解释一下.<p>
 我以一个<code>$shadow</code>的变量开始，<code>list</code>是一个空的列表。
-```
+```css
 $shadow: ();
 ```
 我是从1开始循环到列表的深度。通过Sass意味着我们迭代包括以下的值。
@@ -371,17 +371,17 @@ $shadow: ();
   <li>from 0 through 5 = 0, 1, 2, 3, 4, 5</li>
 </ul>
 每一次迭代我都添加一个text-shadow到这个列表。所以最后这个列表看起来就是下面这个样子：<br/>
-```
+```css
 $shadow: (0 1px 0 red, 1px 2px 0 red, 2px 3px 0 red, ...);
 ```
 使用的时候就像下面这样：<br/>
-```
+```css
 text-shadow: d3(5, red, [$x], [$y], [$blur], [$mix]);
 ```
 $x,$y,$blur和$mix都是可选的参数。我已经提到我将会在keyframes中调用这个函数，所以我需要可选择性的改变他们。 $mix允许添加第二个颜色，实现这个阴影从一种颜色淡出成另外一种颜色。<p>
 下面是例子：
 *jade*
-```
+```html
 div(class="fig--3")
   style. 
     @import 'http://codepen.io/pixelass/pen/XJLOXg.css';
@@ -396,7 +396,7 @@ div(class="fig--3")
   p(style="height: 50px")
 ```
 *html*
-```
+```html
 <div class="fig--3">
   <style>@import 'http://codepen.io/pixelass/pen/XJLOXg.css';</style>
   <div class="logo">
@@ -412,7 +412,7 @@ div(class="fig--3")
 </div>
 ```
 *scss*
-```
+```css
 /// Create a 3d-shadow in a certain direction
 /// @author Gregor Adams
 /// @param  {Number}        $depth - 阴影长度
@@ -472,7 +472,7 @@ $c_shadow-mix: #6998da;
 }
 ```
 *css*
-```
+```css
 .fig--3 .logo {
   perspective: 1000px;
   perspective-origin: 50% 0;
@@ -533,7 +533,7 @@ $c_shadow-mix: #6998da;
 因为我已经创造了许多我需要的部分，现在可以建立动画里。
 #####弹出（动画进入）
 我使用两个上面已经定义的变量$offset和$trans，动画有三个阶段，我需要仔细的决定何时到达某点。<p>
-```
+```css
 @keyframes pop-out {
   0% {
     transform:
@@ -563,7 +563,7 @@ $c_shadow-mix: #6998da;
 ```
 #####淡出（动画结尾）
 同样的步骤实现淡出的效果。
-```
+```css
 @keyframes fade-back {
   0% {
     transform:
@@ -593,7 +593,7 @@ $c_shadow-mix: #6998da;
 ```
 ##### 改变字体颜色
 还需要提供一个动画改变字体颜色。
-```
+```css
 @keyframes change-color {
   0% {
     color: $c_bg;
@@ -605,7 +605,7 @@ $c_shadow-mix: #6998da;
 ```
 ##### 触发这个动画
 现在我们可以像下面这样把动画连接在一起。
-```
+```css
 animation-name: pop-out, fade-back, change-color;
 animation-duration: 4s, 2s, 0.1s;
 animation-delay: 0s, 2s, 3.2s
