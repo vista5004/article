@@ -36,7 +36,7 @@
 删除用不到的views、routes和bin文件夹，然后把<code>app.js</code>改成<code>server.js</code>,我们会写创建另一个app.js来启动Angularjs程序<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-3.png)
 用下面的代码来代替，server.js中的代码
-```
+```javascript
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -75,7 +75,7 @@ app.listen(app.get('port'), function() {
 </ul>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-6.png)
 在publick文件夹中创建index.html，并且输入以下内容<p>
-```
+```html
 <!DOCTYPE html>
 <html ng-app="MyApp">
 <head>
@@ -106,17 +106,17 @@ app.listen(app.get('port'), function() {
 
 这和Ember.js中的outlet(http://emberjs.com/api/classes/Ember.Handlebars.helpers.html#method_outlet)很像<p>
 创建一个<code></code>在别的脚本文件后加入index.html<p>
-```
+```html
 <script src="app.js"></script>
 ```
 现在在<code>app.js</code>加入如下代码就能启动了。<br>
-```
+```javascript
 angular.module('MyApp',['ngCookieds','ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
   .config(function(){
   })
 ```
 我们加入 [AngularStrap Navbar](http://mgcrea.github.io/angular-strap/#/page-one#navbars),把它放在<code>body</code>标签后面。
-```
+```html
 <div class="navbar navbar-default navbar-static-top"
      role="navigation" bs-navbar>
   <div class="navbar-header">
@@ -142,7 +142,7 @@ angular.module('MyApp',['ngCookieds','ngResource', 'ngMessages', 'ngRoute', 'mgc
 你可以尝试运行一个APP，你会发现没有任何错误，但是没有出现Navbar，因为我们还没有包括进来bootstrap3的样式文件。我们将会使用gulp来编译sass文件。<p>
 
 直接安装glup和glup插件<p>
-```
+```javascript
 // Step 1: Install gulp globally
 sudo npm install -g gulp
 
@@ -153,7 +153,7 @@ npm install --save-dev gulp gulp-sass gulp-plumber
 通过<code>--save-dev</code>将会在<code>package.json</code>中添加依赖。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-7.png)
 在项目文件夹中创建一个新的<code>gulpfile.js</code>文件。<p>
-```
+```javascript
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var plumber = require('gulp-plumber');
@@ -175,7 +175,7 @@ gulp.task('default', ['sass', 'watch']);
 当你在终端执行<code>gulp</code>的时候，最后一行指定gulp来运行。现在只需要编辑sass样式文件监听文件变化，自动重新编译文件。你可能会好奇[ gulp-plumber](https://github.com/floatdrop/gulp-plumber)。它能够提供gulp管道当其他插件发生错误的时候。换句话说，当在sass文件中发生语法错误的时候，gulp监听器不会发生崩溃，在gulp工作流中不会出现废话。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-9.png)
 在 public/stylesheets文件夹中创建<code>style.scss</code><p>
-```
+```css
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700);
 
 $icon-font-path: '../fonts/';
@@ -404,11 +404,11 @@ em {
 如果你对bootstrap不陌生的话，在<code>style.css</code>中的所有东西都应该是简单的。这里只有一些简单的普通类，为了看上去更好看，对bootstrap一些核心类的重写。<p>
 ####AngularJS路由和模板
 回到<code>app.js</code>把下面这行加到config方法里面，确保HTML5的push状态。<p>
-```
+```javascript
 $locationProvider.html5Mode(true);
 ```
 [loactionProvider](https://docs.angularjs.org/api/ng/provider/$locationProvider)是什么和用来做什么的？他是内置的AngularJS服务为了配置路由信息。使用这个服务后，你可以使用[HTML5 pushState](http://html5demos.com/history)这样的API，或者改变URL前缀从<code>#</code>到<code>!#</code>类似的。如果你打算在你的AngularJS应用中使用Disqus组件，你需要做一些事情。简单的增加一些<code>locationProvider</code>参数给config回调函数，就可以让AngularJS注入这个服务和应用它。<p>
-```
+```javascript
 angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
   .config(function($locationProvider) {
     $locationProvider.html5Mode(true);
@@ -417,7 +417,7 @@ angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mg
   });
 ```
 当你压缩这个script文件时会发生什么？这个<code>locationProvider</code>的参数会改变成其它模糊的名字，AngularJS会不知道注入哪个服务，你可以通过给这个方法加注释来解决名字依赖的关系。<p>
-```
+```javascript
 angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mgcrea.ngStrap'])
   .config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
@@ -435,7 +435,7 @@ angular.module('MyApp', ['ngCookies', 'ngResource', 'ngMessages', 'ngRoute', 'mg
 <li>Add————用来加入新的电视页</li>
 </ul>
 在配置中注入这个[$routerProvider]，加入这些路由。<p>
-```
+```javascript
 $routeProvider
   .when('/', {
     templateUrl: 'views/home.html',
@@ -464,7 +464,7 @@ $routeProvider
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-11.png)
 对于每一个路由都有一个控制器和模板，如果你有一个页面大部分是静态内容，你甚至不需要设置一个控制器。如果你立即重载这个页面，并且打开开发者工具，你会看到404错误，因为我们还没有任何模板。<p>
 在public/views文件夹中创建<code>home.html</code>，用来存放所有的AngularJS模板。
-```
+```html
 <div class="jumbotron">
   <div class="container">
     <ul class="alphabet">
@@ -506,14 +506,14 @@ $routeProvider
 ```
 如果你使用bootstrap CSS框架，所有的css你都会很熟悉。这里也有一些指令在这里，这个<code>ng-repeat</code>指令将会在这个页面的控制器中从一个数组中迭代指定条目。<p>
 让我们看看这个代码段：
-```
+```html
 <li ng-repeat="char in alphabet">
   <span ng-click="filterByAlphabet(char)">{{char}}</span>
 </li>
 ```
 它在一个叫<code>MainCtrl</code>中，预定义一个叫<code>alphabet</code>的数组。这个<code>refers</code>指的是这个数组中独立的条目，在这个数组中的字母。当你点击这个字母就会启动在<code>specified</code>指定的<code>filterByAlphabet</code>方法。这里我们把指定的字母传入<code>filterByAlphabet(char)</code>，否则不知道过滤哪个字母。<p>
 另一个<code>ng-repeat</code>是展现电视剧的缩略图和名字。<p>
-```
+```html
 <div class="col-xs-4 col-md-3" ng-repeat="show in shows | filter:query | orderBy:'rating':true">
   <a href="/shows/{{show._id}}">
     <img class="img-rounded" ng-src="{{show.poster}}" width="100%"/>
@@ -525,15 +525,15 @@ $routeProvider
 </div>
 ```
 在AngularJS中你可以过滤和排序结果，在以上的代码中，缩略图是靠等级和在input中输入过滤的。<p>
-```
+```html
 <input class="search" type="text" ng-model="query.name" placeholder="Search...">
 ```
 这个判断原因是<code>query.name</code>而不是query，因为我们只想通过TVshow的名字来进行过滤，而不是靠总结、排名、开始播出的时间等进行过滤。<p>
 接下来要创建一个新的文件<code>main.js</code>在public/controllers文件夹，然后把它加入到<code>index.html</code>中。<p>
-```
+```html
 <script src="controllers/main.js"></script>
 ```
-```
+```javascript
 angular.module('MyApp')
   .controller('MainCtrl', ['$scope', 'Show', function($scope, Show) {
 
@@ -564,10 +564,10 @@ angular.module('MyApp')
 ```
 这里有两个我在使用<code>ng-repeat</code>指令时，前面提到过的数组，<code>alphabet</code>和<code>genre</code>，这个<code>show</code>服务中提到过的两个数组。这个<code>show</code>会自动通过AngularJS注入。我们还没有创建这个服务，所以当加载这个页面的时候，会发生如下错误。Unknown provider: ShowProvider <- Show.<p>
 我们在public/services文件夹直接创建一个<code>show.js</code>，不要忘记把它加入到<code>index.html</code>中。<p>
-```
+```html
 <script src="services/show.js"></script>
 ```
-```
+```javascript
 angular.module('MyApp')
   .factory('Show', ['$resource', function($resource) {
     return $resource('/api/shows/:_id');
@@ -579,16 +579,16 @@ angular.module('MyApp')
 ####Step 4: Database Schemas
 2014年6月8日更新。<p>
 安装[mongoose](http://mongoosejs.com/)和通过[bcryptjs](https://github.com/dcodeIO/bcrypt.js)下面的命令。<p>
-```
+```javascript
 npm install --save mongoose bcryptjs
 ```
 在<code>server.js</code>中加入下面两行<p>
-```
+```javascript
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 ```
 就在下面加入mogobd的数据结构<p>
-```
+```javascript
 var showSchema = new mongoose.Schema({
   _id: Number,
   name: String,
@@ -620,7 +620,7 @@ schema数据结构是你的数据在MongoDB中的数据表示，这里是一个�
 2.这个<code>subscribers</code>字段是用户的ID，我们还没有创建schema结构，基本上是用户文档的引用。<p>
 
 接下来我们写一个用户的schema结构
-```
+```javascript
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String
@@ -648,19 +648,19 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 ```
 这里我们使用[pre-save mongoose middleware ](http://mongoosejs.com/docs/middleware.html)和[ instance method](http://mongoosejs.com/docs/guide.html#methods)用于密码验证，这些代码直接从[passport-local](https://github.com/jaredhanson/passport-local)获取。<p>
 现在我们这里已经有schemas结构了，已经创建了一个mongoose模型用于mongodb数据库的查询。schema结构仅仅是数据的抽象表示，另一方面说这个模型是MongoDB数据库增删减查的粘结剂。<p>
-```
+```javascript
 var User = mongoose.model('User', userSchema);
 var Show = mongoose.model('Show', showSchema);
 ```
 链接数据库的代码。<p>
-```
+```javascript
 mongoose.connect('localhost');
 ```
 通过<code>mongod</code>启动MongoDB服务器，然后重新运行<code>server.js</code>让我们的应用继续运行。<p>
 ####第四步：Express API Routes
 我们现在要创建两个路由，第一个是用于所有电视剧的查询，另一个是针对查询单个ID的电视剧。<p>
 在中间件后面增加这些路由：
-```
+```javascript
 app.get('/api/shows', function(req, res, next) {
   var query = Show.find();
   if (req.query.genre) {
@@ -677,7 +677,7 @@ app.get('/api/shows', function(req, res, next) {
 });
 ```
 最初我有三种不同的路由在首页找到最受欢迎的电视剧，通过题材查找和通过字母查找。但是他们基本做的同样的事情，所以我把它们合并到同一个路由，使用Mongoose查询创建者，动态构建一个数据查询。<p>
-```
+```javascript
 app.get('/api/shows/:id', function(req, res, next) {
   Show.findById(req.params.id, function(err, show) {
     if (err) return next(err);
@@ -687,7 +687,7 @@ app.get('/api/shows/:id', function(req, res, next) {
 ```
 你已经注意<code>next</code>参数，如果发生错误这个错误就会被传进error中间件并且被处理，如何处理这个错误取决于你。一个传统的实现方法是在控制台打印一个堆栈跟踪，把错误信息返回给使用者。<p>
 这个错误中间件位于路由的末端，当发生一个错误，这个堆栈跟踪器会在控制台输出，把错误信息以JSON形式反应出来。<p>
-```
+```javascript
 app.use(function(err, req, res, next) {
   console.error(err.stack);
   res.send(500, { message: err.message });
@@ -696,25 +696,25 @@ app.use(function(err, req, res, next) {
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-13.png)
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-14.png)
 如果你进入Add,Login或者Signup页面，你会得到一个404错误：<p>
-```
+```javascript
 Cannot GET /add
 ```
 这是一个使用HTML5 pushstate时通常遇到的问题，直接去路由解决这个问题，在产生错误的地方直接添加一个新路由。<p>
-```
+```javascript
 app.get('*', function(req, res) {
   res.redirect('/#' + req.originalUrl);
 });
 ```
 在其他后面添加这个路由是非常重要的，因为我们使用这个星号<code>*</code>可以匹配任何输入的路由。<p>
 如果进入<code>http://localhost:3000/asdf</code>，最后一个添加的路由会匹配它后直接进入<code>http://localhost:3000/#asdf</code>，在这点上AngularJS会用在<code>$roterProvider</code>上定义的路由匹配URL。既然我们没用定义<code>asdf</code>，那应该直接调整到首页。<p>
-```
+```javascript
 .otherwise({
  redirectTo: '/'
 });
 ```
 ####步骤六：TVDB API的查询和分析
 给数据库添加一个新的点数据会产生的一个分离的路由。<p>
-```
+```javascript
 app.post('/api/shows', function(req, res, next) {
   var apiKey = '9EF1D1E7D28FDA0B';
   var parser = xml2js.Parser({
@@ -810,19 +810,38 @@ slugified的电视剧用下划线代替了破折号，因为这个API信息所�
 你可能奇怪为什么在MongoDB中保持Base64格式的图片，原因就是我有(AmazonS3)[http://aws.amazon.com/cn/s3/]用来保存这些图片，因为它不是免费的，所以我不希望每个人都有一个帐号。另一方面，每张图片都比Base64格式的图片大30%，根据(MongoLab)[https://www.mongohq.com/pricing/]和(MongoHQ)[https://mlab.com/plans/pricing/]500MB以内是免费的。<p>
 ![Alt text](http://sahatyalkabov.com/images/blog/tvshow-tracker-15.png)
 在开始之前，别忘了安装和增加依赖。<p>
-```
+```javascript
 npm install --save async request xml2js lodash
 ```
-```
+```javascript
 var async = require('async');
 var request = require('request');
 var xml2js = require('xml2js');
 var _ = require('lodash');
 ```
-
-
-
-
+##第七步回到AngularJS
+在views文件夹中新建一个新的模板文件<code>add.html</code>。
+```html
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Add TV Show</div>
+    <div class="panel-body">
+      <form class="form" method="post" ng-submit="addShow()" name="addForm">
+        <div class="form-group" ng-class="{ 'has-success' : addForm.showName.$valid && addForm.showName.$dirty, 'has-error' : addForm.showName.$invalid && addForm.showName.$dirty }">
+          <input class="form-control" type="text" name="showName" ng-model="showName" placeholder="Enter TV show name" required autofocus>
+          <div class="help-block text-danger" ng-if="addForm.showName.$dirty" ng-messages="addForm.showName.$error">
+            <div ng-message="required">TV show name is required.</div>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit" ng-disabled="addForm.$invalid">Add</button>
+      </form>
+    </div>
+  </div>
+</div>
+```
+2014年6月更新：我为第八步的登录表格增加了验证和错误信息。
+总体来说我们通过<code>ng-class</code>来动态的为登录表单添加Bootstrap的<code>has-cuccess</code>和<code>has-erroe</code>类。检查的理由是表单是否是<code>$dirty</code>。
+<code>ng-disabled</code>是AngularJS提供的另外一个有用的指令，允许我们禁用一个按钮单元表单通过所有的验证规则。在这个例子中，它仅仅是在<code>showName</code>上<code>disable</code>的属性。
 
 
 
